@@ -20,8 +20,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String name, String username, String email, String dob, String contact) {
-        this.id = id;
+    public User(String name, String username, String email, String dob, String contact) {
         this.name = name;
         this.username = username;
         this.email = email;

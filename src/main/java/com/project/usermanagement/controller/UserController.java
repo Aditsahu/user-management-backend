@@ -23,17 +23,22 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        return userService.getUserById(id);
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("No user present with ID=" + id, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/user")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            this.userService.addUser(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            User newUser = this.userService.addUser(user);
+            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error Creating user", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
